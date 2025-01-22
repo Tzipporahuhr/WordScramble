@@ -14,3 +14,6 @@ The game will include multiple difficulty levels, affecting the length of the wo
 The player earns points for correct answers and loses points for incorrect answers. 
 
 *** The full spec for the game can be found in the repo***
+
+
+![Wireframe](https://github.com/user-attachments/assets/698db25a-b811-4f69-947e-ce691486d81e)
