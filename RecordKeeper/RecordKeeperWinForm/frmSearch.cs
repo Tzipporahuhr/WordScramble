@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using CPUFramework;
 
 namespace RecordKeeperWinForm
 {
@@ -19,45 +11,50 @@ namespace RecordKeeperWinForm
             InitializeComponent();
 
             btnSearch.Click += BtnSearch_Click;
+            gPresident.CellDoubleClick += GPresident_CellDoubleClick;
+            FormatGrid();
         }
 
-        private void BtnSearch_Click(object? sender, EventArgs e)
-        {
-           
-        }
+      
 
         private void SearchForPresident(string lastname)
         {
-            string sql = "select * from president p where p.lastname like '%" + lastname + "%' ";
-            Debug.Print(sql);
+            string sql = "select PresidentId, Num, LastName, FirstName from president p where p.lastname like '%" + lastname + "%' ";
+            
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            gPresident.DataSource = dt;
+            gPresident.Columns["PresidentId"].Visible= false;
 
             //run the sql
             //get the data table
             //bind the grid
         }
 
-        private string GetConnectionString()
+        private void ShowPresidentForm(int rowIndex)
         {
-            var s = "Server=.\\SQLExpress;Database=RecordKeeperDB;Trusted_Connection=true";
-            
-
-            return s;
+            int id = (int)gPresident.Rows[rowIndex].Cells["PresidentId"].Value;
+            frmPresident frm = new frmPresident();
+            frm.ShowForm(id);
         }
 
-        private DataTable GetDataTable(string sqlstatement)
+        private  void FormatGrid()
         {
-            DataTable dt = new();
-            SqlConnection conn = new();
-            conn.ConnectionString = GetConnectionString();
-            conn.Open();
-             
-            var cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = sqlstatement; ;
-            var dr = cmd.ExecuteReader();
-            dt.Load(dr);
-            return dt;
+            gPresident.AllowUserToAddRows = false;
+            gPresident.ReadOnly = true;
+            gPresident.AutoSizeColumnsMode= DataGridViewAutoSizeColumnsMode.AllCells;
+            gPresident.SelectionMode= DataGridViewSelectionMode.FullRowSelect;
+        } 
+        private void GPresident_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        { 
+            ShowPresidentForm(e.RowIndex);
         }
+       
+        private void BtnSearch_Click(object? sender, EventArgs e)
+        {
+            SearchForPresident(txtLastName.Text);
+        }
+
+        
 
     }
 }
