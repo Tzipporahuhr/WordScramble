@@ -78,23 +78,19 @@ namespace WordScrambleApp
 
         private void FilteredWordsByDifficulty(List<Word> words)
         {
-            List<string> wordList = words
-                
-                .Select(w => w.ToString().ToLower())
-                .Where(word=>word.All(char.IsLetter))
-                .ToList();
-           
-               //Select(w => w.ToString()).ToList();
 
+            List<Word> wordList = words.Where(w => w.Value.All(char.IsLetter)).ToList();
+                
+              
 
                 if (rdbEasy.Checked)
             {
-                filteredWords = wordList.Where(word => word.Length >= 3 && word.Length <= 5).ToList();
+                filteredWords = wordList.Where(word => word.Value.Length >= 3 && word.Length <= 5).ToList();
             }
 
             else if (rdbMedium.Checked)
             {
-                filteredWords = wordList.Where(word => word.Length >= 6 && word.Length <= 8).ToList();
+                filteredWords = wordList.Where(word => word.Value.Length >= 6 && word.Length <= 8).ToList();
             }
             else if (rdbHard.Checked)
 
