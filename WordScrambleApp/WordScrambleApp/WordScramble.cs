@@ -8,7 +8,7 @@ namespace WordScrambleApp
     {
         private string currentWord;
         private string scrambledWord;
-        private List<string> filteredWords;
+        private List<Word> filteredWords= new List<Word>();
         private int score;
 
         public WordScramble()
@@ -17,7 +17,6 @@ namespace WordScrambleApp
            
          
             score = 0;
-
             ClearLabels();
             btnStart.Click += BtnStart_Click;
             btnAnswer.Click += BtnAnswer_Click;
@@ -29,12 +28,14 @@ namespace WordScrambleApp
             rdbEasy.Checked = false;
             rdbMedium.Checked = false;
             rdbHard.Checked = false;
+            lblScrambledWord2.Text = string.Empty;
         }
         private void BtnAnswer_Click(object? sender, EventArgs e)
         {
             ClearLabels();
             lblAnswer.Text = currentWord;
-           
+       
+
             string userGuess=txtGuessTheWord.Text.Trim();
 
             if(string.Equals(userGuess, currentWord, StringComparison.OrdinalIgnoreCase))
@@ -44,6 +45,8 @@ namespace WordScrambleApp
                 lblFeedback.Text = "Great Job!! Your answer is correct.";
                 lblFeedback.ForeColor = Color.Green;
                 txtGuessTheWord.Text = string.Empty;
+                lblScrambledWord2.Text = string.Empty;
+
                 }
             else
             {
@@ -60,15 +63,18 @@ namespace WordScrambleApp
             
             List<Word> lstwords = gnuciDictionary.EnglishDictionary.GetAllWords().ToList();
 
-            FilteredWordsByDifficulty(lstwords);
+            FilterWordsByDifficulty(lstwords);
 
             if (filteredWords.Count > 0)
             {
                 Random rnd = new Random();
-                currentWord = filteredWords[rnd.Next(filteredWords.Count)];
+                Word selectedWord = filteredWords[rnd.Next(filteredWords.Count)];
+                currentWord = selectedWord.Value;
                 scrambledWord = ScrambleWord(currentWord);
 
                 lblScrambledWord2.Text = scrambledWord;
+                lblAnswer.Text = string.Empty;
+                lblFeedback.Text=string.Empty;
             }
              else
             {
@@ -76,32 +82,32 @@ namespace WordScrambleApp
             }
         }
 
-        private void FilteredWordsByDifficulty(List<Word> words)
+        private void FilterWordsByDifficulty(List<Word> words)
         {
+            List<Word> wordList = words.Where(w => w.Value.All(char.IsLetter)).ToList(); 
 
-            List<Word> wordList = words.Where(w => w.Value.All(char.IsLetter)).ToList();
-                
-              
-
-                if (rdbEasy.Checked)
+            if (rdbEasy.Checked)
             {
-                filteredWords = wordList.Where(word => word.Value.Length >= 3 && word.Length <= 5).ToList();
+                filteredWords = wordList
+                    .Where(word => word.Value.Length >= 3 && word.Value.Length <= 5)  
+                    .ToList();
             }
-
             else if (rdbMedium.Checked)
             {
-                filteredWords = wordList.Where(word => word.Value.Length >= 6 && word.Length <= 8).ToList();
+                filteredWords = wordList
+                    .Where(word => word.Value.Length >= 6 && word.Value.Length <= 8)
+                    .ToList();
             }
             else if (rdbHard.Checked)
-
             {
-                filteredWords = wordList.Where(word => word.Length >= 9).ToList();
+                filteredWords = wordList
+                    .Where(word => word.Value.Length >= 9)
+                    .ToList();
             }
             else
             {
                 filteredWords = wordList;
             }
-            
         }
 
         private string ScrambleWord(string word)
