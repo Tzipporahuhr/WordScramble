@@ -1,5 +1,6 @@
 
 using CPUFramework;
+
 namespace RecordKeeperWinForm
 {
     internal static class Program

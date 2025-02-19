@@ -12,10 +12,11 @@ namespace RecordKeeperWinForm
 
             btnSearch.Click += BtnSearch_Click;
             gPresident.CellDoubleClick += GPresident_CellDoubleClick;
+            btnNew.Click += BtnNew_Click;
             FormatGrid();
         }
 
-      
+       
 
         private void SearchForPresident(string lastname)
         {
@@ -32,7 +33,12 @@ namespace RecordKeeperWinForm
 
         private void ShowPresidentForm(int rowIndex)
         {
-            int id = (int)gPresident.Rows[rowIndex].Cells["PresidentId"].Value;
+            int id = 0;
+            if (rowIndex > -1)
+            {
+                id = (int)gPresident.Rows[rowIndex].Cells["PresidentId"].Value;
+            }
+             
             frmPresident frm = new frmPresident();
             frm.ShowForm(id);
         }
@@ -54,7 +60,12 @@ namespace RecordKeeperWinForm
             SearchForPresident(txtLastName.Text);
         }
 
-        
+        private void BtnNew_Click(object? sender, EventArgs e)
+        {
+            ShowPresidentForm(-1);
+        }
+
+
 
     }
 }
