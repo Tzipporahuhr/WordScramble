@@ -40,12 +40,12 @@
             lblCaptionTermEnd = new Label();
             txtFirstName = new TextBox();
             txtLastName = new TextBox();
-            txtDateBorn = new TextBox();
             txtDateDied = new TextBox();
             txtTermStart = new TextBox();
             txtTermEnd = new TextBox();
             lstPartyName = new ComboBox();
             txtNum = new TextBox();
+            dtpDateBorn = new DateTimePicker();
             toolStrip1 = new ToolStrip();
             btnSave = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -70,12 +70,12 @@
             tblMain.Controls.Add(lblCaptionTermEnd, 0, 7);
             tblMain.Controls.Add(txtFirstName, 1, 2);
             tblMain.Controls.Add(txtLastName, 1, 3);
-            tblMain.Controls.Add(txtDateBorn, 1, 4);
             tblMain.Controls.Add(txtDateDied, 1, 5);
             tblMain.Controls.Add(txtTermStart, 1, 6);
             tblMain.Controls.Add(txtTermEnd, 1, 7);
             tblMain.Controls.Add(lstPartyName, 1, 0);
             tblMain.Controls.Add(txtNum, 1, 1);
+            tblMain.Controls.Add(dtpDateBorn, 1, 4);
             tblMain.Location = new Point(2, 27);
             tblMain.Name = "tblMain";
             tblMain.RowCount = 8;
@@ -189,14 +189,6 @@
             txtLastName.Size = new Size(444, 29);
             txtLastName.TabIndex = 11;
             // 
-            // txtDateBorn
-            // 
-            txtDateBorn.Dock = DockStyle.Fill;
-            txtDateBorn.Location = new Point(91, 163);
-            txtDateBorn.Name = "txtDateBorn";
-            txtDateBorn.Size = new Size(444, 29);
-            txtDateBorn.TabIndex = 12;
-            // 
             // txtDateDied
             // 
             txtDateDied.Dock = DockStyle.Fill;
@@ -236,6 +228,14 @@
             txtNum.Name = "txtNum";
             txtNum.Size = new Size(444, 29);
             txtNum.TabIndex = 17;
+            // 
+            // dtpDateBorn
+            // 
+            dtpDateBorn.Format = DateTimePickerFormat.Short;
+            dtpDateBorn.Location = new Point(91, 163);
+            dtpDateBorn.Name = "dtpDateBorn";
+            dtpDateBorn.Size = new Size(199, 29);
+            dtpDateBorn.TabIndex = 18;
             // 
             // toolStrip1
             // 
@@ -307,7 +307,6 @@
         private Label lblCaptionTermEnd;
         private TextBox txtFirstName;
         private TextBox txtLastName;
-        private TextBox txtDateBorn;
         private TextBox txtDateDied;
         private TextBox txtTermStart;
         private TextBox txtTermEnd;
@@ -318,5 +317,6 @@
         private ToolStripSeparator toolStripSeparator2;
         private ComboBox lstPartyName;
         private TextBox txtNum;
+        private DateTimePicker dtpDateBorn;
     }
 }

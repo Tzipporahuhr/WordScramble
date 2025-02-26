@@ -1,6 +1,10 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using CPUFramework;
+ 
+using CPUWindowsFormFramework;
+using RecordKeeperWinForm;
+using RecordKeeperSystem;
+
 
 namespace RecordKeeperWinForm
 {
@@ -13,22 +17,20 @@ namespace RecordKeeperWinForm
             btnSearch.Click += BtnSearch_Click;
             gPresident.CellDoubleClick += GPresident_CellDoubleClick;
             btnNew.Click += BtnNew_Click;
-            FormatGrid();
+            WindowsFormsUtility.FormatGridForSearchResults(gPresident);
         }
 
        
 
         private void SearchForPresident(string lastname)
         {
-            string sql = "select PresidentId, Num, LastName, FirstName from president p where p.lastname like '%" + lastname + "%' ";
             
-            DataTable dt = SQLUtility.GetDataTable(sql);
+
+            DataTable dt =  President.SearchPresidents(lastname);
             gPresident.DataSource = dt;
             gPresident.Columns["PresidentId"].Visible= false;
 
-            //run the sql
-            //get the data table
-            //bind the grid
+             
         }
 
         private void ShowPresidentForm(int rowIndex)
@@ -43,13 +45,7 @@ namespace RecordKeeperWinForm
             frm.ShowForm(id);
         }
 
-        private  void FormatGrid()
-        {
-            gPresident.AllowUserToAddRows = false;
-            gPresident.ReadOnly = true;
-            gPresident.AutoSizeColumnsMode= DataGridViewAutoSizeColumnsMode.AllCells;
-            gPresident.SelectionMode= DataGridViewSelectionMode.FullRowSelect;
-        } 
+      
         private void GPresident_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         { 
             ShowPresidentForm(e.RowIndex);

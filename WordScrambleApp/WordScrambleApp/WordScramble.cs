@@ -33,10 +33,8 @@ namespace WordScrambleApp
         private void BtnAnswer_Click(object? sender, EventArgs e)
         {
             ClearLabels();
-            lblAnswer.Text = currentWord;
-       
-
-            string userGuess=txtGuessTheWord.Text.Trim();
+           string userGuess=txtGuessTheWord.Text.Trim().Normalize();
+           string correctAnswer = currentWord.Trim().Normalize();
 
             if(string.Equals(userGuess, currentWord, StringComparison.OrdinalIgnoreCase))
             {
@@ -51,15 +49,26 @@ namespace WordScrambleApp
             else
             {
                 score -= 1;
-                lblScore2.Text=score.ToString();
+             
                 lblFeedback.Text = "Try Again.";
                 lblFeedback.ForeColor=Color.Green;
             }
+            lblScore2.Text = score.ToString();
+            txtGuessTheWord.Text=string.Empty;
+            lblScrambledWord2.Text=string.Empty;
+            lblAnswer.Text = correctAnswer;
         }
 
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             lblScrambledWord2.Text = string.Empty;
+
+            if (rdbEasy.Checked == false && rdbMedium.Checked == false && rdbHard.Checked==false)
+            {
+                lblFeedback.Text = "Please select a level";
+                lblFeedback.ForeColor = Color.Green;
+                return;
+            }
             
             List<Word> lstwords = gnuciDictionary.EnglishDictionary.GetAllWords().ToList();
 
@@ -113,7 +122,10 @@ namespace WordScrambleApp
         private string ScrambleWord(string word)
         {
             Random rnd= new Random();
-            return new string(word.ToCharArray().OrderBy(c => rnd.Next()).ToArray());
+            char[] letters= word.ToLower().ToCharArray();
+              letters = letters.OrderBy(c => rnd.Next()).ToArray();
+
+            return new string(letters);
             
         }
         private void panel1_Paint(object sender, PaintEventArgs e)
