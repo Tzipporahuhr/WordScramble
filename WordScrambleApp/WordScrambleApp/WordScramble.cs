@@ -31,10 +31,19 @@ namespace WordScrambleApp
             lblScrambledWord2.Text = string.Empty;
         }
         private void BtnAnswer_Click(object? sender, EventArgs e)
+<<<<<<< HEAD
         {
             ClearLabels();
            string userGuess=txtGuessTheWord.Text.Trim().Normalize();
            string correctAnswer = currentWord.Trim().Normalize();
+=======
+        { 
+           
+       
+
+            string userGuess=txtGuessTheWord.Text.Trim().Normalize();
+            string correctAnswer = currentWord.Trim().Normalize();
+>>>>>>> 984364d (Saving local changes before pulling)
 
             if(string.Equals(userGuess, currentWord, StringComparison.OrdinalIgnoreCase))
             {
@@ -49,7 +58,11 @@ namespace WordScrambleApp
             else
             {
                 score -= 1;
+<<<<<<< HEAD
              
+=======
+               // lblScore2.Text=score.ToString();
+>>>>>>> 984364d (Saving local changes before pulling)
                 lblFeedback.Text = "Try Again.";
                 lblFeedback.ForeColor=Color.Green;
             }
