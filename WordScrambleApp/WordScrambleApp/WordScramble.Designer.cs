@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             tblMain = new TableLayoutPanel();
-            button2 = new Button();
             lblScrambledWord1 = new Label();
             lblScrambledWord2 = new Label();
             panel1 = new Panel();
@@ -63,7 +62,6 @@
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 47F));
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 407F));
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 19F));
-            tblMain.Controls.Add(button2, 0, 0);
             tblMain.Controls.Add(lblScrambledWord1, 1, 1);
             tblMain.Controls.Add(lblScrambledWord2, 3, 1);
             tblMain.Controls.Add(panel1, 1, 3);
@@ -92,18 +90,6 @@
             tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 66F));
             tblMain.Size = new Size(851, 594);
             tblMain.TabIndex = 0;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.Chartreuse;
-            button2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = SystemColors.ButtonHighlight;
-            button2.Location = new Point(3, 3);
-            button2.Name = "button2";
-            button2.Size = new Size(12, 7);
-            button2.TabIndex = 5;
-            button2.Text = "Start";
-            button2.UseVisualStyleBackColor = false;
             // 
             // lblScrambledWord1
             // 
@@ -380,7 +366,6 @@
         private RadioButton rdbEasy;
         private RadioButton rdbMedium;
         private RadioButton rdbHard;
-        private Button button2;
         private TableLayoutPanel tblStart;
         private Button btnStart;
         private TableLayoutPanel tblScore;
