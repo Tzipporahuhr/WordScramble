@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CPUFramework;
+using System.Data.SqlClient;
 
 namespace RecordKeeperSystem
 {
@@ -27,8 +28,8 @@ namespace RecordKeeperSystem
 
         public static DataTable GetPartyList()
         {
+             SqlConnection conn= new SqlConnection(SQLUtility.ConnectionString);
 
-            return SQLUtility.GetDataTable("select PartyId, PartyName from party");
         }
 
        public static void Save(DataTable dtpresident)

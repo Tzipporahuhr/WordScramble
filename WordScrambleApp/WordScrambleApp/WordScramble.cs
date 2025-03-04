@@ -32,7 +32,7 @@ namespace WordScrambleApp
         }
         private void BtnAnswer_Click(object? sender, EventArgs e)
         {
-            ClearLabels();
+            //ClearLabels();
            string userGuess=txtGuessTheWord.Text.Trim().Normalize();
            string correctAnswer = currentWord.Trim().Normalize();
 
