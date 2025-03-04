@@ -28,11 +28,13 @@ namespace RecordKeeperSystem
 
         public static DataTable GetPartyList()
         {
-             SqlConnection conn= new SqlConnection(SQLUtility.ConnectionString);
+            return SQLUtility.GetDataTable("select PartyId,  PartyName from party");
+
 
         }
 
-       public static void Save(DataTable dtpresident)
+
+        public static void Save(DataTable dtpresident)
         {
             SQLUtility.DebugPrintDataTable(dtpresident);
             DataRow r = dtpresident.Rows[0];
