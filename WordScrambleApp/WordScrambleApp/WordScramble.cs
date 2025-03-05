@@ -8,14 +8,14 @@ namespace WordScrambleApp
     {
         private string currentWord;
         private string scrambledWord;
-        private List<Word> filteredWords= new List<Word>();
+        private List<Word> filteredWords = new List<Word>();
         private int score;
 
         public WordScramble()
         {
             InitializeComponent();
-           
-         
+
+
             score = 0;
             ClearLabels();
             btnStart.Click += BtnStart_Click;
@@ -31,44 +31,31 @@ namespace WordScrambleApp
             lblScrambledWord2.Text = string.Empty;
         }
         private void BtnAnswer_Click(object? sender, EventArgs e)
-<<<<<<< HEAD
         {
-            //ClearLabels();
-           string userGuess=txtGuessTheWord.Text.Trim().Normalize();
-           string correctAnswer = currentWord.Trim().Normalize();
-=======
-        { 
-           
-       
-
-            string userGuess=txtGuessTheWord.Text.Trim().Normalize();
+            ClearLabels();
+            string userGuess = txtGuessTheWord.Text.Trim().Normalize();
             string correctAnswer = currentWord.Trim().Normalize();
->>>>>>> 984364d (Saving local changes before pulling)
 
-            if(string.Equals(userGuess, currentWord, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(userGuess, currentWord, StringComparison.OrdinalIgnoreCase))
             {
-                score+=1;
-                lblScore2.Text=score.ToString();
+                score += 1;
+                lblScore2.Text = score.ToString();
                 lblFeedback.Text = "Great Job!! Your answer is correct.";
                 lblFeedback.ForeColor = Color.Green;
                 txtGuessTheWord.Text = string.Empty;
                 lblScrambledWord2.Text = string.Empty;
 
-                }
+            }
             else
             {
                 score -= 1;
-<<<<<<< HEAD
-             
-=======
-               // lblScore2.Text=score.ToString();
->>>>>>> 984364d (Saving local changes before pulling)
+
                 lblFeedback.Text = "Try Again.";
-                lblFeedback.ForeColor=Color.Green;
+                lblFeedback.ForeColor = Color.Green;
             }
             lblScore2.Text = score.ToString();
-            txtGuessTheWord.Text=string.Empty;
-            lblScrambledWord2.Text=string.Empty;
+            txtGuessTheWord.Text = string.Empty;
+            lblScrambledWord2.Text = string.Empty;
             lblAnswer.Text = correctAnswer;
         }
 
@@ -76,13 +63,13 @@ namespace WordScrambleApp
         {
             lblScrambledWord2.Text = string.Empty;
 
-            if (rdbEasy.Checked == false && rdbMedium.Checked == false && rdbHard.Checked==false)
+            if (rdbEasy.Checked == false && rdbMedium.Checked == false && rdbHard.Checked == false)
             {
                 lblFeedback.Text = "Please select a level";
                 lblFeedback.ForeColor = Color.Green;
                 return;
             }
-            
+
             List<Word> lstwords = gnuciDictionary.EnglishDictionary.GetAllWords().ToList();
 
             FilterWordsByDifficulty(lstwords);
@@ -96,9 +83,9 @@ namespace WordScrambleApp
 
                 lblScrambledWord2.Text = scrambledWord;
                 lblAnswer.Text = string.Empty;
-                lblFeedback.Text=string.Empty;
+                lblFeedback.Text = string.Empty;
             }
-             else
+            else
             {
                 lblScrambledWord2.Text = " No words avail";
             }
@@ -106,12 +93,12 @@ namespace WordScrambleApp
 
         private void FilterWordsByDifficulty(List<Word> words)
         {
-            List<Word> wordList = words.Where(w => w.Value.All(char.IsLetter)).ToList(); 
+            List<Word> wordList = words.Where(w => w.Value.All(char.IsLetter)).ToList();
 
             if (rdbEasy.Checked)
             {
                 filteredWords = wordList
-                    .Where(word => word.Value.Length >= 3 && word.Value.Length <= 5)  
+                    .Where(word => word.Value.Length >= 3 && word.Value.Length <= 5)
                     .ToList();
             }
             else if (rdbMedium.Checked)
@@ -134,12 +121,12 @@ namespace WordScrambleApp
 
         private string ScrambleWord(string word)
         {
-            Random rnd= new Random();
-            char[] letters= word.ToLower().ToCharArray();
-              letters = letters.OrderBy(c => rnd.Next()).ToArray();
+            Random rnd = new Random();
+            char[] letters = word.ToLower().ToCharArray();
+            letters = letters.OrderBy(c => rnd.Next()).ToArray();
 
             return new string(letters);
-            
+
         }
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
