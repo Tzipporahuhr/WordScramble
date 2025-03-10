@@ -13,6 +13,7 @@ public partial class frmPresident : Form
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
+         dtpresident = new DataTable();
             
         }
 

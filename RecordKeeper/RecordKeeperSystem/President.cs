@@ -14,29 +14,64 @@ namespace RecordKeeperSystem
     {
         public static DataTable SearchPresidents(string lastname)
         {
-            string sql = "select PresidentId, Num, LastName, FirstName from president p where p.lastname like '%" + lastname + "%' ";
+            DataTable dt = new();
 
-            DataTable dt = SQLUtility.GetDataTable(sql);
+             
+            SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
+            
+            
+            cmd.Parameters["@LastName"].Value = lastname;
+
+            
+            dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
-        public static DataTable Load (int presidentid)
+
+        public static DataTable Load(int presidentid)
         {
-            string sql = "select p.*, y.PartyName from president p join party y on p.PartyId= y.PartyId where p.PresidentId=" + presidentid.ToString();
-            return SQLUtility.GetDataTable(sql);
+            DataTable dt = new();
+
+             
+            SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
+            
+
+           ;
+             
+             
+            
+            cmd.Parameters["@President"].Value = presidentid;
+             
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
         }
 
+
+        [Obsolete]
         public static DataTable GetPartyList()
         {
-            return SQLUtility.GetDataTable("select PartyId,  PartyName from party");
+            DataTable dt = new();
+        
+            SqlCommand cmd = SQLUtility.GetSqlCommand("PartyGet");
+        
+            
+            
 
+             
+            
+
+            cmd.Parameters["@All"].Value = 1;
+             
+            dt = SQLUtility.GetDataTable(cmd);
+
+            return dt;
 
         }
 
 
         public static void Save(DataTable dtpresident)
         {
-            SQLUtility.DebugPrintDataTable(dtpresident);
+            //SQLUtility.DebugPrintDataTable(dtpresident);
             DataRow r = dtpresident.Rows[0];
             int id = (int)r["PresidentId"];
             string sql = "";
