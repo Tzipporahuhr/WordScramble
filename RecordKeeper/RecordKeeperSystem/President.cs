@@ -15,14 +15,8 @@ namespace RecordKeeperSystem
         public static DataTable SearchPresidents(string lastname)
         {
             DataTable dt = new();
-
-             
             SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
-            
-            
             cmd.Parameters["@LastName"].Value = lastname;
-
-            
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
@@ -31,15 +25,7 @@ namespace RecordKeeperSystem
         public static DataTable Load(int presidentid)
         {
             DataTable dt = new();
-
-             
             SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
-            
-
-           ;
-             
-             
-            
             cmd.Parameters["@President"].Value = presidentid;
              
             dt = SQLUtility.GetDataTable(cmd);
@@ -51,15 +37,7 @@ namespace RecordKeeperSystem
         public static DataTable GetPartyList()
         {
             DataTable dt = new();
-        
             SqlCommand cmd = SQLUtility.GetSqlCommand("PartyGet");
-        
-            
-            
-
-             
-            
-
             cmd.Parameters["@All"].Value = 1;
              
             dt = SQLUtility.GetDataTable(cmd);
