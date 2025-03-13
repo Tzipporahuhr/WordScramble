@@ -4,6 +4,7 @@ using CPUFramework;
 namespace RecordKeeperWinForm;
 using CPUWindowsFormFramework;
 using RecordKeeperSystem;
+using System.Web;
 
 public partial class frmPresident : Form
     {
@@ -39,6 +40,26 @@ public partial class frmPresident : Form
             
             this.Show();
         }
+    public void SetControlBinding(Control ctrl, DataTable dt)
+    {
+        string propertyname = "";
+        string columnname = "";
+        string controlname = ctrl.Name.ToLower();
+
+        if (controlname.StartsWith("txt")|| controlname.StartsWith("lbl"))
+        {
+            propertyname = "Text";
+            columnname = controlname.Substring(3);
+        }
+
+        if (propertyname != ""&& columnname != "")
+        {
+            ctrl.DataBindings.Add(propertyname, dt, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+
+    }
+    
 
         private void Delete()
         {
@@ -53,7 +74,22 @@ public partial class frmPresident : Form
         
         private void Save()
         {
-        President.Save(dtpresident);
+        //SQLUtility.DebugPrintDataTable(dtpresident);
+        DataRow r = dtpresident.Rows[0];
+        string sql = string.Join(Environment.NewLine, $"update president set",
+             
+           // $"PartyName='{r["PartyName"]}'",
+            $"FirstName='{r["FirstName"]}'",
+            $"LastName='{r["LastName"]}'",
+             $"DateBorn='{r["DateBorn"]}'",
+            $"TermStart='{r["TermStart"]}'",
+            $"where Presidentid= {r["PresidentId"]}");
+       
+        
+        Debug.Print("---------------------");
+         
+        SQLUtility.GetDataTable(sql);
+        //President.Save(dtpresident);
         }
         private void BtnSave_Click(object? sender, EventArgs e)
         {
