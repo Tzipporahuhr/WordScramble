@@ -113,7 +113,7 @@ namespace RecordKeeperTest
         [Test]
         public void SearchPresidents()
         { string criteria = "a";
-            int num = SQLUtility.GetFirstColumnFirstRowValue("select total =count (*) from president where lastname like '%" + criteria + "%'");
+            int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count (*) from president where lastname like '%" + criteria + "%'");
             Assume.That(num > 0, "There no presidents that match the search for " + num);
             TestContext.WriteLine(num + "presidents that match " +  criteria);
             TestContext.WriteLine("Ensure that president search returns " + num + "rows");
