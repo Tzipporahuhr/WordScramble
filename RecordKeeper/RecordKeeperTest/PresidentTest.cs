@@ -51,7 +51,7 @@ namespace RecordKeeperTest
             Assume.That(presidentid > 0, "No presidents in DB, cant run test");
             int termstart = SQLUtility.GetFirstColumnFirstRowValue("select termstart from president where presidentid=" + presidentid);
             TestContext.WriteLine("termstart for presidentid" + presidentid + "is " + termstart);
-            termstart = termstart + 1;
+            termstart = termstart - 1;
             TestContext.WriteLine("change termstart to " + termstart);
 
 
