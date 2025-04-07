@@ -101,13 +101,23 @@ public partial class frmPresident : Form
             }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "RecordKeeper");
+            string msg = ex.Message;
+            if (msg.Contains("ck_") );
+            { int pos = msg.IndexOf("ck_") + 3; 
+            msg = msg.Substring(pos);
+            pos=msg.IndexOf("\"");
+            if (pos == -1)
+            {
+                msg = ex.Message;
+            }
+            else
+            {
+                msg = msg.Substring(0,pos);
+                msg = msg.Replace("_", "");
+            }
+                MessageBox.Show(ex.Message, "RecordKeeper");
         }
-            //SQLUtility.DebugPrintDataTable(dtpresident);
-            //dtpresident.Rows[0].EndEdit();
-            //dtpresident.AcceptChanges();
-            //SQLUtility.DebugPrintDataTable(dtpresident);
-        //President.Save(dtpresident);
+            
         }
         private void BtnSave_Click(object? sender, EventArgs e)
         {
