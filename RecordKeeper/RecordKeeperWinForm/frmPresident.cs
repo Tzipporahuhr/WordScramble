@@ -63,8 +63,16 @@ public partial class frmPresident : Form
 
         private void Delete()
         {
+        try
+        {
             President.Delete(dtpresident);
             this.Close();
+        } catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "RecordKeeper");
+        }
+        
+          
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
@@ -74,6 +82,7 @@ public partial class frmPresident : Form
         
         private void Save()
         {
+        try { 
         //SQLUtility.DebugPrintDataTable(dtpresident);
         DataRow r = dtpresident.Rows[0];
         string sql = string.Join(Environment.NewLine, $"update president set",
@@ -89,6 +98,15 @@ public partial class frmPresident : Form
         Debug.Print("---------------------");
          
         SQLUtility.GetDataTable(sql);
+            }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "RecordKeeper");
+        }
+            //SQLUtility.DebugPrintDataTable(dtpresident);
+            //dtpresident.Rows[0].EndEdit();
+            //dtpresident.AcceptChanges();
+            //SQLUtility.DebugPrintDataTable(dtpresident);
         //President.Save(dtpresident);
         }
         private void BtnSave_Click(object? sender, EventArgs e)
