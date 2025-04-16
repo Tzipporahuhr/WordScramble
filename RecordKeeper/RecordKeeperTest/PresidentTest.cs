@@ -91,6 +91,31 @@ namespace RecordKeeperTest
             TestContext.WriteLine("Record with presidentid" + presidentid + "does not exist in DB");
         }
         [Test]
+        public void DeletePresidentWithExecutiveOrder()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 p. presidentid, Num, LastName from president p  join  ExecutiveOrdersForPresident e  on e.presidentid=p.presidentid  where e. ExecutiveOrderForPresidentId is null");
+            int presidentid = 0;
+            string prezdesc = "";
+
+            if (dt.Rows.Count > 0)
+
+            {
+                presidentid = (int)dt.Rows[0]["presidentid"];
+                prezdesc = dt.Rows[0]["Num"] + " " + dt.Rows[0]["LastName"];
+            }
+
+
+            Assume.That(presidentid > 0, "No presidents with executive order in DB, can't run test");
+
+            TestContext.WriteLine("existing president without executive order, with id = " + presidentid + " " + prezdesc);
+            TestContext.WriteLine("ensure that app cannot delete" + presidentid);
+
+            Assert.Throws<Exception>(()=>President.Delete(dt));
+            DataTable dtafterdelete = SQLUtility.GetDataTable("select * from president where presidentid= " + presidentid);
+            Assert.IsTrue(dtafterdelete.Rows.Count == 0, "record with presidentid" + presidentid + "exists in db");
+            TestContext.WriteLine("Record with presidentid" + presidentid + "does not exist in DB");
+        }
+        [Test]
         public void LoadPresident()
         {
             int presidentid = GetExistingPresidentId();

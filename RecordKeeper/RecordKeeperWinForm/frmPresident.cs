@@ -1,14 +1,12 @@
-﻿using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using CPUFramework;
 namespace RecordKeeperWinForm;
 using CPUWindowsFormFramework;
 using RecordKeeperSystem;
-using System.Web;
 
 public partial class frmPresident : Form
     {
-        DataTable dtpresident;
+        DataTable dtpresident=new DataTable();
         public frmPresident()
         {
             InitializeComponent();
@@ -63,6 +61,7 @@ public partial class frmPresident : Form
 
         private void Delete()
         {
+        Application.UseWaitCursor = true;
         try
         {
             President.Delete(dtpresident);
@@ -70,6 +69,10 @@ public partial class frmPresident : Form
         } catch (Exception ex)
         {
             MessageBox.Show(ex.Message, "RecordKeeper");
+        }
+        finally
+        {
+            Application.UseWaitCursor= false;   
         }
         
           
@@ -82,6 +85,7 @@ public partial class frmPresident : Form
         
         private void Save()
         {
+        Application.UseWaitCursor = true;
         try { 
         //SQLUtility.DebugPrintDataTable(dtpresident);
         DataRow r = dtpresident.Rows[0];
@@ -98,24 +102,16 @@ public partial class frmPresident : Form
         Debug.Print("---------------------");
          
         SQLUtility.GetDataTable(sql);
+            Application.UseWaitCursor = false;
             }
         catch (Exception ex)
         {
-            string msg = ex.Message;
-            if (msg.Contains("ck_") );
-            { int pos = msg.IndexOf("ck_") + 3; 
-            msg = msg.Substring(pos);
-            pos=msg.IndexOf("\"");
-            if (pos == -1)
-            {
-                msg = ex.Message;
-            }
-            else
-            {
-                msg = msg.Substring(0,pos);
-                msg = msg.Replace("_", "");
-            }
+           
                 MessageBox.Show(ex.Message, "RecordKeeper");
+        }
+        finally
+        {
+            Application.UseWaitCursor=false;
         }
             
         }
