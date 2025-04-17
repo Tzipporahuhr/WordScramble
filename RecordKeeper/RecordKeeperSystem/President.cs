@@ -63,6 +63,28 @@ namespace RecordKeeperSystem
             //SQLUtility.DebugPrintDataTable(dtpresident);
             DataRow r = dtpresident.Rows[0];
             int id = (int)r["PresidentId"];
+//added to to error
+            if (r["TermEnd"] != DBNull.Value && r["TermStart"] != DBNull.Value)
+            {
+                int termStart = Convert.ToInt32(r["TermStart"]);
+                int termEnd = Convert.ToInt32(r["TermEnd"]);
+
+                if (termStart > termEnd)
+                {
+                    throw new Exception("TermEnd cannot be before TermStart");
+                }
+            }
+            int newNum = Convert.ToInt32(r["Num"]);
+            int existingId = SQLUtility.GetFirstColumnFirstRowValue($@"
+        select isnull(max(PresidentId), 0)
+        from president
+        where Num = {newNum} and PresidentId <> {id}");
+
+            if (existingId > 0)
+            {
+                throw new Exception("President number must be unique");
+            }
+            //until here
             string sql = "";
             if (id > 0)
             {
