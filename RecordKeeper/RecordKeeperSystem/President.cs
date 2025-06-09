@@ -116,8 +116,11 @@ namespace RecordKeeperSystem
         public static void Delete(DataTable dtpresident)
         {
             int id = (int)dtpresident.Rows[0]["PresidentId"];
-            string sql = "delete president where PresidentId= " + id;
-            SQLUtility.ExecuteSQL(sql);
+            SqlCommand cmd= SQLUtility.GetSqlCommand("PresidentDelete");
+            cmd.Parameters["@PresidentId"].Value = id;
+
+
+            SQLUtility.ExecuteSQL(cmd);
             
         }
     }
