@@ -7,58 +7,32 @@ namespace RecordKeeperSystem
         public static DataTable SearchPresidents(string lastname)
         {
             DataTable dt = new();
-           
             SqlCommand cmd =SQLUtility.GetSqlCommand("PresidentGet");
-            
-            
-            cmd.Parameters["@LastName"].Value = lastname;
-           dt=SQLUtility.GetDataTable(cmd);
-             
+            SQLUtility.SetParamValue(cmd, "@LastName", lastname);
+            dt=SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
-
-        public static DataTable Load(int presidentid)
+         public static DataTable Load(int presidentid)
         {
             DataTable dt = new();
-            
-            SqlCommand cmd =  SQLUtility.GetSqlCommand("PresidentGet");
-           
-
-           
-           
-
-
-            cmd.Parameters["@President"].Value = presidentid;
-
-         
+            SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
+            SQLUtility.SetParamValue(cmd, "@President", presidentid);
             dt=SQLUtility.GetDataTable(cmd);
-             
-           
             return dt;
         }
-
 
         [Obsolete]
         public static DataTable GetPartyList()
         {
             DataTable dt = new();
-           
             SqlCommand cmd = SQLUtility.GetSqlCommand("PartyGet");
-
-          
-
-            cmd.Parameters["@All"].Value = 1;
-
-           
-         dt=SQLUtility.GetDataTable(cmd);
-
+            SQLUtility.SetParamValue(cmd, "@All", 1);
+            dt=SQLUtility.GetDataTable(cmd);
             return dt;
 
         }
-
-
-        public static void Save(DataTable dtpresident)
+         public static void Save(DataTable dtpresident)
         {
             //SQLUtility.DebugPrintDataTable(dtpresident);
             DataRow r = dtpresident.Rows[0];
@@ -117,8 +91,8 @@ namespace RecordKeeperSystem
         {
             int id = (int)dtpresident.Rows[0]["PresidentId"];
             SqlCommand cmd= SQLUtility.GetSqlCommand("PresidentDelete");
-            cmd.Parameters["@PresidentId"].Value = id;
-
+            
+            SQLUtility.SetParamValue(cmd, "@PresidentId", id);
 
             SQLUtility.ExecuteSQL(cmd);
             

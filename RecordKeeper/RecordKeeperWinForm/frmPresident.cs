@@ -61,6 +61,11 @@ public partial class frmPresident : Form
 
         private void Delete()
         {
+       var response= MessageBox.Show("Are you sure you want to delete this President?", "RecordKeeper", MessageBoxButtons.YesNo);
+        if (response == DialogResult.No)
+        {
+            return;
+        }
         Application.UseWaitCursor = true;
         try
         {
