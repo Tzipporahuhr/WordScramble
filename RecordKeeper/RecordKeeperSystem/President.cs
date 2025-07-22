@@ -4,11 +4,15 @@ namespace RecordKeeperSystem
 {
     public class President
     {
+        [Obsolete]
         public static DataTable SearchPresidents(string lastname)
         {
             DataTable dt = new();
-            SqlCommand cmd =SQLUtility.GetSqlCommand("PresidentGet");
-            SQLUtility.SetParamValue(cmd, "@LastName", lastname);
+            SqlCommand cmd = SQLUtility.GetSqlCommand("PresidentGet");
+            bool searchAll = string.IsNullOrWhiteSpace(lastname);
+            SQLUtility.SetParamValue(cmd, "@LastName", lastname ?? "");
+            SQLUtility.SetParamValue(cmd, "@All", searchAll ? 1 : 0);
+           
             dt=SQLUtility.GetDataTable(cmd);
             return dt;
         }
@@ -32,59 +36,79 @@ namespace RecordKeeperSystem
             return dt;
 
         }
-         public static void Save(DataTable dtpresident)
+        //         public static void Save(DataTable dtpresident)
+        //        {
+        //            //SQLUtility.DebugPrintDataTable(dtpresident);
+        //            DataRow r = dtpresident.Rows[0];
+        //            SQLUtility.SaveDataRow(r, "PresidentUpdate");
+        //////added to to error
+        ////            if (r["TermEnd"] != DBNull.Value && r["TermStart"] != DBNull.Value)
+        ////            {
+        ////                int termStart = Convert.ToInt32(r["TermStart"]);
+        ////                int termEnd = Convert.ToInt32(r["TermEnd"]);
+
+        ////                if (termStart > termEnd)
+        ////                {
+        ////                    throw new Exception("TermEnd cannot be before TermStart");
+        ////                }
+        ////            }
+        ////            int newNum = Convert.ToInt32(r["Num"]);
+        ////            int existingId = SQLUtility.GetFirstColumnFirstRowValue($@"
+        ////       // select isnull(max(PresidentId), 0)
+        ////        //from president
+        ////        //where Num = {newNum} and PresidentId <> {id}");
+
+        ////            if (existingId > 0)
+        ////            {
+        ////                throw new Exception("President number must be unique");
+        ////            }
+        ////            //until here
+        ////           // string sql = "";
+
+
+        //            //SQLUtility.ExecuteSQL(sql);
+        //        }
+
+        public static void Save(DataTable dtpresident)
         {
-            //SQLUtility.DebugPrintDataTable(dtpresident);
+            if (dtpresident.Rows.Count == 0)
+            {
+                throw new Exception("cannot call President Save method because there are no rows in the table");
+            }
             DataRow r = dtpresident.Rows[0];
-            int id = (int)r["PresidentId"];
-//added to to error
-            if (r["TermEnd"] != DBNull.Value && r["TermStart"] != DBNull.Value)
-            {
-                int termStart = Convert.ToInt32(r["TermStart"]);
-                int termEnd = Convert.ToInt32(r["TermEnd"]);
 
-                if (termStart > termEnd)
+            if (r.RowState != DataRowState.Deleted)
+            {
+
+                if (r["TermEnd"] != DBNull.Value && r["TermStart"] != DBNull.Value)
                 {
-                    throw new Exception("TermEnd cannot be before TermStart");
+                    int termStart = Convert.ToInt32(r["TermStart"]);
+                    int termEnd = Convert.ToInt32(r["TermEnd"]);
+
+                    if (termStart > termEnd)
+                    {
+                        throw new Exception("TermEnd cannot be before TermStart");
+                    }
                 }
-            }
-            int newNum = Convert.ToInt32(r["Num"]);
-            int existingId = SQLUtility.GetFirstColumnFirstRowValue($@"
-        select isnull(max(PresidentId), 0)
-        from president
-        where Num = {newNum} and PresidentId <> {id}");
-
-            if (existingId > 0)
-            {
-                throw new Exception("President number must be unique");
-            }
-            //until here
-            string sql = "";
-            if (id > 0)
-            {
-                sql = string.Join(Environment.NewLine, $"update president set",
-
-                    $"PartyId='{r["PartyId"]}',",
-                    $"Num ='{r["Num"]}',",
-                    $"FirstName='{r["FirstName"]}',",
-                    $"LastName='{r["LastName"]}',",
-                    $"DateBorn='{r["DateBorn"]}',",
-                    $"TermStart='{r["TermStart"]}'",
-                   $"where PresidentId={r["PresidentId"]}");
-            }
-            else
+                SQLUtility.SaveDataRow(r, "PresidentUpdate");
 
 
+                int newNum = Convert.ToInt32(r["Num"]);
+                int currentId = r["PresidentId"] == DBNull.Value ? 0 : Convert.ToInt32(r["PresidentId"]);
 
-            {
+                //    int existingId = SQLUtility.GetFirstColumnFirstRowValue($@"
+                //select  isnull (max(PresidentId), 0)
+                //from President
+                //where Num = {newNum} AND PresidentId <> {currentId}");
 
-                sql = "insert president(PartyId, Num, FirstName, LastName, DateBorn, TermStart) ";
-                sql += $"select '{r["PartyId"]}', {r["Num"]}, '{r["FirstName"]}', '{r["LastName"]}', '{r["DateBorn"]}', {r["TermStart"]} ";
+                //    if (existingId > 0)
+                //    {
+                //        throw new Exception("President number must be unique");
+                //    }
+                //}
             }
 
-            Debug.Print("-------------------");
-
-            SQLUtility.ExecuteSQL(sql);
+            SQLUtility.SaveDataRow(r, "PresidentUpdate");
         }
 
         public static void Delete(DataTable dtpresident)

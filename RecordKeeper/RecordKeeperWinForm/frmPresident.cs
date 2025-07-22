@@ -6,8 +6,10 @@ using RecordKeeperSystem;
 
 public partial class frmPresident : Form
     {
-        DataTable dtpresident=new DataTable();
-        public frmPresident()
+        DataTable dtpresident= new DataTable();
+        BindingSource bindsource = new BindingSource();
+
+    public frmPresident()
         {
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
@@ -21,20 +23,26 @@ public partial class frmPresident : Form
         public void ShowForm(int presidentid) 
         {
          dtpresident = President.Load(presidentid);
+        bindsource.DataSource = dtpresident;
             if (presidentid == 0)
             {
                 dtpresident.Rows.Add();
             }
-        DataTable dtparties = President.GetPartyList();
-            WindowsFormsUtility.SetListBinding(lstPartyName, dtparties, dtpresident, "Party");
+        // DataTable dtparties = President.GetPartyList();
 
-        WindowsFormsUtility.SetControlBinding(txtNum, dtpresident);
-        WindowsFormsUtility. SetControlBinding(txtLastName, dtpresident);
-        WindowsFormsUtility.SetControlBinding(txtFirstName, dtpresident);
-        WindowsFormsUtility.SetControlBinding(dtpDateBorn, dtpresident);
-        WindowsFormsUtility.SetControlBinding(txtDateDied, dtpresident);
-        WindowsFormsUtility.SetControlBinding(txtTermStart, dtpresident);
-        WindowsFormsUtility.SetControlBinding(txtTermEnd, dtpresident);
+        SqlCommand cmd = SQLUtility.GetSqlCommand("PartyGet");
+        SQLUtility.SetParamValue(cmd, "@All", 1);
+        DataTable dtparties = SQLUtility.GetDataTable(cmd);
+        
+        WindowsFormsUtility.SetListBinding(lstPartyName, dtparties, dtpresident, "Party");
+
+        WindowsFormsUtility.SetControlBinding(txtNum, bindsource);
+        WindowsFormsUtility. SetControlBinding(txtLastName, bindsource);
+        WindowsFormsUtility.SetControlBinding(txtFirstName, bindsource);
+        WindowsFormsUtility.SetControlBinding(dtpDateBorn, bindsource);
+        WindowsFormsUtility.SetControlBinding(txtDateDied, bindsource);
+        WindowsFormsUtility.SetControlBinding(txtTermStart, bindsource);
+        WindowsFormsUtility.SetControlBinding(txtTermEnd, bindsource);
             
             this.Show();
         }
@@ -86,41 +94,65 @@ public partial class frmPresident : Form
         {
             Delete();
         }
-       
-        
-        private void Save()
-        {
+
+
+    //private void Save()
+    //{
+    //Application.UseWaitCursor = true;
+    //try
+    //{
+
+    //    DataRow r = dtpresident.Rows[0];
+    //    string sql = string.Join(Environment.NewLine, $"update president set",
+
+    //        // $"PartyName='{r["PartyName"]}'",
+    //        $"FirstName='{r["FirstName"]}'",
+    //        $"LastName='{r["LastName"]}'",
+    //         $"DateBorn='{r["DateBorn"]}'",
+    //        $"TermStart='{r["TermStart"]}'",
+    //        $"where Presidentid= {r["PresidentId"]}");
+
+
+    //    Debug.Print("---------------------");
+
+    //    SQLUtility.GetDataTable(sql);
+    //    Application.UseWaitCursor = true;
+    //    try
+    //    {
+    //        President.Save(dtpresident);
+    //        bindsource.ResetBindings(false);
+
+    //    }
+    //    catch (Exception ex)
+    //    {
+
+    //        MessageBox.Show(ex.Message, "RecordKeeper");
+    //    }
+    //    finally
+    //    {
+    //        Application.UseWaitCursor = false;
+    //    }
+
+    private void Save()
+    {
         Application.UseWaitCursor = true;
-        try { 
-        //SQLUtility.DebugPrintDataTable(dtpresident);
-        DataRow r = dtpresident.Rows[0];
-        string sql = string.Join(Environment.NewLine, $"update president set",
-             
-           // $"PartyName='{r["PartyName"]}'",
-            $"FirstName='{r["FirstName"]}'",
-            $"LastName='{r["LastName"]}'",
-             $"DateBorn='{r["DateBorn"]}'",
-            $"TermStart='{r["TermStart"]}'",
-            $"where Presidentid= {r["PresidentId"]}");
-       
-        
-        Debug.Print("---------------------");
-         
-        SQLUtility.GetDataTable(sql);
-            Application.UseWaitCursor = false;
-            }
+        try
+        {
+            President.Save(dtpresident);
+            bindsource.ResetBindings(false);
+            this.Close();
+        }
         catch (Exception ex)
         {
-           
-                MessageBox.Show(ex.Message, "RecordKeeper");
+            MessageBox.Show(ex.Message, "RecordKeeper");
         }
         finally
         {
-            Application.UseWaitCursor=false;
+            Application.UseWaitCursor = false;
         }
-            
-        }
-        private void BtnSave_Click(object? sender, EventArgs e)
+    }
+
+    private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
         }
