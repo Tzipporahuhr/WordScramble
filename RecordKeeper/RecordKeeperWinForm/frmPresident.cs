@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using CPUFramework;
-namespace RecordKeeperWinForm;
+﻿namespace RecordKeeperWinForm;
 using CPUWindowsFormFramework;
 using RecordKeeperSystem;
 
@@ -14,21 +12,20 @@ public partial class frmPresident : Form
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
+        this.FormClosing += FrmPresident_FormClosing;
          dtpresident = new DataTable();
-            
-        }
+             }
 
-      
-
-        public void ShowForm(int presidentid) 
-        {
+    public void ShowForm(int presidentid) 
+      {
+        this.Tag = presidentid;
          dtpresident = President.Load(presidentid);
         bindsource.DataSource = dtpresident;
             if (presidentid == 0)
             {
                 dtpresident.Rows.Add();
             }
-        // DataTable dtparties = President.GetPartyList();
+        
 
         SqlCommand cmd = SQLUtility.GetSqlCommand("PartyGet");
         SQLUtility.SetParamValue(cmd, "@All", 1);
@@ -43,8 +40,9 @@ public partial class frmPresident : Form
         WindowsFormsUtility.SetControlBinding(txtDateDied, bindsource);
         WindowsFormsUtility.SetControlBinding(txtTermStart, bindsource);
         WindowsFormsUtility.SetControlBinding(txtTermEnd, bindsource);
-            
-            this.Show();
+
+        this.Text=GetPresidentDesc();
+        this.Show();
         }
     public void SetControlBinding(Control ctrl, DataTable dt)
     {
@@ -69,7 +67,16 @@ public partial class frmPresident : Form
 
         private void Delete()
         {
-       var response= MessageBox.Show("Are you sure you want to delete this President?", "RecordKeeper", MessageBoxButtons.YesNo);
+       
+        
+            string alloweddelete = SQLUtility.GetValueFromFirstRowAsString(dtpresident, "IsDeleteAllowed");
+            if (alloweddelete != "")
+            {
+                MessageBox.Show(alloweddelete, Application.ProductName);
+                return;
+            }
+       
+       var response= MessageBox.Show("Are you sure you want to delete this President?", Application.ProductName, MessageBoxButtons.YesNo);
         if (response == DialogResult.No)
         {
             return;
@@ -81,7 +88,7 @@ public partial class frmPresident : Form
             this.Close();
         } catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "RecordKeeper");
+            MessageBox.Show(ex.Message, Application.ProductName);
         }
         finally
         {
@@ -90,6 +97,18 @@ public partial class frmPresident : Form
         
           
         }
+
+    private string GetPresidentDesc()
+    {
+        string value = "New President";
+        int pkvalue= SQLUtility.GetValueFromFirstRowAsInt(dtpresident, "PresidentId");
+        if (pkvalue > 0)
+        {
+            value = SQLUtility.GetValueFromFirstRowAsInt(dtpresident, "Num") + " " + SQLUtility.GetValueFromFirstRowAsString(dtpresident, "LastName");
+                 
+        }
+        return value;
+    }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
             Delete();
@@ -133,14 +152,19 @@ public partial class frmPresident : Form
     //        Application.UseWaitCursor = false;
     //    }
 
-    private void Save()
+    private bool Save()
     {
+        bool b = false;
         Application.UseWaitCursor = true;
         try
-        {
+        {  
             President.Save(dtpresident);
+            b = true;
             bindsource.ResetBindings(false);
-            this.Close();
+           
+            this.Tag= SQLUtility.GetValueFromFirstRowAsInt(dtpresident, "PresidentId");
+            this.Text = GetPresidentDesc();
+            
         }
         catch (Exception ex)
         {
@@ -150,11 +174,46 @@ public partial class frmPresident : Form
         {
             Application.UseWaitCursor = false;
         }
+        return b;
     }
 
     private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
         }
+
+
+    private void FrmPresident_FormClosing(object? sender, FormClosingEventArgs e)
+    {
+        bindsource.EndEdit();
+        if (SQLUtility.TableHasChanges(dtpresident))
+        {
+            var res = MessageBox.Show($"Do you want to save changes to {this.Text} before closing?",Application.ProductName,MessageBoxButtons.YesNoCancel);
+            switch (res)
+            {
+                case DialogResult.Yes:
+                   bool b= Save();
+                    if (!b)
+                    {
+                        e.Cancel = true;
+                        this.Activate(); 
+                    }
+                    if (b == false)
+                    {
+                        e.Cancel = true;
+                        this.Activate();
+                    }
+                    
+                    break;
+                 
+
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    this.Activate();
+                    break;
+            }
+        }
     }
- 
+
+}
+

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPresident));
             tblMain = new TableLayoutPanel();
             lblCaptionParty = new Label();
@@ -51,6 +52,7 @@
             toolStripSeparator1 = new ToolStripSeparator();
             btnDelete = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
+            ttPresident = new ToolTip(components);
             tblMain.SuspendLayout();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -98,7 +100,7 @@
             lblCaptionParty.Name = "lblCaptionParty";
             lblCaptionParty.Size = new Size(45, 21);
             lblCaptionParty.TabIndex = 0;
-            lblCaptionParty.Text = "Party";
+            lblCaptionParty.Text = "Part&y";
             // 
             // lblCaptionNum
             // 
@@ -108,7 +110,7 @@
             lblCaptionNum.Name = "lblCaptionNum";
             lblCaptionNum.Size = new Size(45, 21);
             lblCaptionNum.TabIndex = 1;
-            lblCaptionNum.Text = "Num";
+            lblCaptionNum.Text = "N&um";
             // 
             // lblCaptionFirstName
             // 
@@ -118,7 +120,7 @@
             lblCaptionFirstName.Location = new Point(3, 90);
             lblCaptionFirstName.Name = "lblCaptionFirstName";
             lblCaptionFirstName.Size = new Size(82, 20);
-            lblCaptionFirstName.TabIndex = 2;
+            lblCaptionFirstName.TabIndex = 3;
             lblCaptionFirstName.Text = "FirstName";
             // 
             // lblCaptionLastName
@@ -129,7 +131,7 @@
             lblCaptionLastName.Location = new Point(3, 130);
             lblCaptionLastName.Name = "lblCaptionLastName";
             lblCaptionLastName.Size = new Size(82, 20);
-            lblCaptionLastName.TabIndex = 3;
+            lblCaptionLastName.TabIndex = 5;
             lblCaptionLastName.Text = "LastName";
             // 
             // lblCaptionDateBorn
@@ -140,7 +142,7 @@
             lblCaptionDateBorn.Location = new Point(3, 170);
             lblCaptionDateBorn.Name = "lblCaptionDateBorn";
             lblCaptionDateBorn.Size = new Size(82, 20);
-            lblCaptionDateBorn.TabIndex = 4;
+            lblCaptionDateBorn.TabIndex = 7;
             lblCaptionDateBorn.Text = "Date Born";
             // 
             // lblCaptionDateDied
@@ -150,8 +152,9 @@
             lblCaptionDateDied.Location = new Point(3, 209);
             lblCaptionDateDied.Name = "lblCaptionDateDied";
             lblCaptionDateDied.Size = new Size(78, 21);
-            lblCaptionDateDied.TabIndex = 5;
+            lblCaptionDateDied.TabIndex = 9;
             lblCaptionDateDied.Text = "Date Died";
+            ttPresident.SetToolTip(lblCaptionDateDied, " ");
             // 
             // lblCaptionTermStart
             // 
@@ -160,8 +163,9 @@
             lblCaptionTermStart.Location = new Point(3, 249);
             lblCaptionTermStart.Name = "lblCaptionTermStart";
             lblCaptionTermStart.Size = new Size(80, 21);
-            lblCaptionTermStart.TabIndex = 6;
+            lblCaptionTermStart.TabIndex = 11;
             lblCaptionTermStart.Text = "Term Start";
+            ttPresident.SetToolTip(lblCaptionTermStart, " ");
             // 
             // lblCaptionTermEnd
             // 
@@ -170,7 +174,7 @@
             lblCaptionTermEnd.Margin = new Padding(3, 7, 3, 0);
             lblCaptionTermEnd.Name = "lblCaptionTermEnd";
             lblCaptionTermEnd.Size = new Size(74, 21);
-            lblCaptionTermEnd.TabIndex = 7;
+            lblCaptionTermEnd.TabIndex = 13;
             lblCaptionTermEnd.Text = "Term End";
             // 
             // txtFirstName
@@ -179,7 +183,7 @@
             txtFirstName.Location = new Point(91, 83);
             txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(444, 29);
-            txtFirstName.TabIndex = 10;
+            txtFirstName.TabIndex = 4;
             // 
             // txtLastName
             // 
@@ -187,7 +191,7 @@
             txtLastName.Location = new Point(91, 123);
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(444, 29);
-            txtLastName.TabIndex = 11;
+            txtLastName.TabIndex = 6;
             // 
             // txtDateDied
             // 
@@ -195,7 +199,7 @@
             txtDateDied.Location = new Point(91, 203);
             txtDateDied.Name = "txtDateDied";
             txtDateDied.Size = new Size(444, 29);
-            txtDateDied.TabIndex = 13;
+            txtDateDied.TabIndex = 10;
             // 
             // txtTermStart
             // 
@@ -203,7 +207,8 @@
             txtTermStart.Location = new Point(91, 243);
             txtTermStart.Name = "txtTermStart";
             txtTermStart.Size = new Size(444, 29);
-            txtTermStart.TabIndex = 14;
+            txtTermStart.TabIndex = 12;
+            ttPresident.SetToolTip(txtTermStart, "Enter a year not a Date");
             // 
             // txtTermEnd
             // 
@@ -211,7 +216,8 @@
             txtTermEnd.Location = new Point(91, 283);
             txtTermEnd.Name = "txtTermEnd";
             txtTermEnd.Size = new Size(444, 29);
-            txtTermEnd.TabIndex = 15;
+            txtTermEnd.TabIndex = 14;
+            ttPresident.SetToolTip(txtTermEnd, "Enter a year not a Date");
             // 
             // lstPartyName
             // 
@@ -219,7 +225,7 @@
             lstPartyName.Location = new Point(91, 3);
             lstPartyName.Name = "lstPartyName";
             lstPartyName.Size = new Size(199, 29);
-            lstPartyName.TabIndex = 16;
+            lstPartyName.TabIndex = 0;
             // 
             // txtNum
             // 
@@ -227,7 +233,7 @@
             txtNum.Location = new Point(91, 43);
             txtNum.Name = "txtNum";
             txtNum.Size = new Size(444, 29);
-            txtNum.TabIndex = 17;
+            txtNum.TabIndex = 2;
             // 
             // dtpDateBorn
             // 
@@ -235,7 +241,7 @@
             dtpDateBorn.Location = new Point(91, 163);
             dtpDateBorn.Name = "dtpDateBorn";
             dtpDateBorn.Size = new Size(199, 29);
-            dtpDateBorn.TabIndex = 18;
+            dtpDateBorn.TabIndex = 8;
             // 
             // toolStrip1
             // 
@@ -245,6 +251,7 @@
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(534, 28);
             toolStrip1.TabIndex = 1;
+            toolStrip1.TabStop = true;
             toolStrip1.Text = "toolStrip1";
             // 
             // btnSave
@@ -318,5 +325,6 @@
         private ComboBox lstPartyName;
         private TextBox txtNum;
         private DateTimePicker dtpDateBorn;
+        private ToolTip ttPresident;
     }
 }

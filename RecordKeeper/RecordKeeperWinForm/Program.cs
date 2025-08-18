@@ -16,7 +16,7 @@ namespace RecordKeeperWinForm
             ApplicationConfiguration.Initialize();
             DBManager.SetConnectionString ("Server=.\\SQLExpress;Database=RecordKeeperDB;Trusted_Connection=true");
 
-            Application.Run(new frmSearch());
+            Application.Run(new frmMain());
         }
     }
 }

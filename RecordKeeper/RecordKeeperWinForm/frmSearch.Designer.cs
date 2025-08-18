@@ -33,8 +33,8 @@
             lblLastName = new Label();
             txtLastName = new TextBox();
             btnSearch = new Button();
-            gPresident = new DataGridView();
             btnNew = new Button();
+            gPresident = new DataGridView();
             tblMain.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gPresident).BeginInit();
@@ -83,7 +83,7 @@
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(112, 30);
             lblLastName.TabIndex = 0;
-            lblLastName.Text = "Last Name";
+            lblLastName.Text = "&Last Name";
             // 
             // txtLastName
             // 
@@ -105,16 +105,6 @@
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = true;
             // 
-            // gPresident
-            // 
-            gPresident.AllowUserToOrderColumns = true;
-            gPresident.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gPresident.Dock = DockStyle.Fill;
-            gPresident.Location = new Point(3, 55);
-            gPresident.Name = "gPresident";
-            gPresident.Size = new Size(809, 584);
-            gPresident.TabIndex = 1;
-            // 
             // btnNew
             // 
             btnNew.AutoSize = true;
@@ -126,6 +116,17 @@
             btnNew.TabIndex = 3;
             btnNew.Text = "&New";
             btnNew.UseVisualStyleBackColor = true;
+            // 
+            // gPresident
+            // 
+            gPresident.AllowUserToOrderColumns = true;
+            gPresident.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gPresident.Dock = DockStyle.Fill;
+            gPresident.Location = new Point(3, 55);
+            gPresident.Name = "gPresident";
+            gPresident.Size = new Size(809, 584);
+            gPresident.StandardTab = true;
+            gPresident.TabIndex = 1;
             // 
             // frmSearch
             // 
